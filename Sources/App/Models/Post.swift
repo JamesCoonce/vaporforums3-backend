@@ -9,21 +9,13 @@ import Foundation
 import Vapor
 import FluentPostgreSQL
 
-// extension Post: Migration {  }
-
 extension Post: Content { }
 extension Post: Timestampable {
-    static var createdAtKey: WritableKeyPath<Post, Date?> {
-        return \Post.created_at
-    }
-    
-    static var updatedAtKey: WritableKeyPath<Post, Date?> {
-        return \Post.updated_at
-    }
+    static var createdAtKey: WritableKeyPath<Post, Date?> { return \Post.created_at }
+    static var updatedAtKey: WritableKeyPath<Post, Date?> { return \Post.updated_at }
 }
 
 final class Post: PostgreSQLModel {
-    
     
     var id:Int?
     var content: String
