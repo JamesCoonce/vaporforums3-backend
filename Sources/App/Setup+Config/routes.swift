@@ -1,4 +1,6 @@
 import Vapor
+import Crypto
+import Authentication
 
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
@@ -15,6 +17,11 @@ public func routes(_ router: Router) throws {
     router.get("misty", use: todoController.rrrrr)
     router.delete("todos", Todo.parameter, use: todoController.delete)
     
+    
     let userController = UserController()
     router.post("createUser", use: userController.createUser)
+    let middleWare = User.basicAuthMiddleware(using: BCryptDigest())
+    let authedGroup = router.grouped(middleWare)
+    authedGroup.post("login", use: userController.loginUser)
+    
 }

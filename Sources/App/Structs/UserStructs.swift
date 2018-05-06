@@ -8,14 +8,17 @@
 import Foundation
 import Vapor
 
-struct AuthenticatedUser: Content {
-    var email: String
-    var user_id: Int
-    var displayName: String
-    var token: String
+extension User {
+    struct AuthenticatedUser: Content {
+        var email: String
+        var id: Int
+        var displayName: String
+        var token: String
+    }
+    
+    struct LoginRequest: Content {
+        var email: String
+        var password: String
+    }
 }
 
-struct LoginRequest: Content {
-    var email: String
-    var password: String
-}
