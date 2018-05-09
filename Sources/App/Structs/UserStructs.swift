@@ -20,5 +20,11 @@ extension User {
         var email: String
         var password: String
     }
+    
+    struct PublicUser: Content {
+        var email: String
+        var id: Int
+        var displayName: String
+    }
 }
 

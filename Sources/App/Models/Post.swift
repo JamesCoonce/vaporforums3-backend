@@ -11,8 +11,8 @@ import FluentPostgreSQL
 
 extension Post: Content { }
 extension Post: Timestampable {
-    static var createdAtKey: WritableKeyPath<Post, Date?> { return \Post.created_at }
-    static var updatedAtKey: WritableKeyPath<Post, Date?> { return \Post.updated_at }
+    static var createdAtKey: WritableKeyPath<Post, Date?> { return \Post.createdAt }
+    static var updatedAtKey: WritableKeyPath<Post, Date?> { return \Post.updatedAt }
 }
 
 final class Post: PostgreSQLModel {
@@ -27,8 +27,8 @@ final class Post: PostgreSQLModel {
     var isPublished: Bool
     var vaporVersion: Int
     var synHiContent: String?
-    var created_at: Date?
-    var updated_at: Date?
+    var createdAt: Date?
+    var updatedAt: Date?
     
     init(content: String, postTitle: String, user_id: Int, viewCount: Int, isTutorial: Bool, tutorialType: String, isPublished: Bool, vaporVersion: Int, synHiContent: String) {
         self.content = content
@@ -41,7 +41,5 @@ final class Post: PostgreSQLModel {
         self.vaporVersion = vaporVersion
         self.synHiContent = synHiContent
     }
-    
-    
 }
 
