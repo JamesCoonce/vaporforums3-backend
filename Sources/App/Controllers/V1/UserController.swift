@@ -10,15 +10,8 @@ import Vapor
 import Authentication
 import Crypto
 
-final class UserAPIController {
-    
-    func getAll(_ request: Request) throws -> Future<[User.PublicUser]> {
-        return User.query(on: request).all().map(to: [User.PublicUser].self) { users  in
-            let publicUsers = try users.publicUsers()
-            return publicUsers
-        }
-    }
-    
+final class UserController {
+
     func createUser(_ request: Request) throws -> Future<User.AuthenticatedUser> {
         return try request.content.decode(User.self).flatMap(to: User.AuthenticatedUser.self) { (user) -> Future<User.AuthenticatedUser> in
             let hasher = try request.make(BCryptDigest.self)

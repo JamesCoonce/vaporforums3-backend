@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 import FluentPostgreSQL
-final class PostAPIController {
+final class PostController {
     func createTutorial(_ request: Request) throws -> Future<HTTPStatus> {
         return try request.content.decode(Post.self).flatMap { newPost in
             return newPost.save(on: request).transform(to: HTTPStatus.ok)

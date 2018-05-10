@@ -8,6 +8,6 @@
 import Foundation
 import Vapor
 
-final class CommentAPIController {
+final class CommentController {
     
 }
