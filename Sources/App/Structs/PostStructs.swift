@@ -21,7 +21,7 @@ extension Post {
         static let JWT = "JSONWebToken"
     }
     
-    struct PostWithoutContent {
+    struct PostWithoutContent: Content  {
         var id:Int?
         var postTitle: String
         let user_id: Int

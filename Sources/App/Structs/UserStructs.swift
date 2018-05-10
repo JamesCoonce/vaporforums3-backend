@@ -9,6 +9,12 @@ import Foundation
 import Vapor
 
 extension User {
+    
+    struct Role {
+        static let admin = "administrator"
+        static  let user = "user"
+    }
+    
     struct AuthenticatedUser: Content {
         var email: String
         var id: Int

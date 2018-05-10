@@ -11,24 +11,6 @@ import Vapor
 import Crypto
 import Authentication
 
-extension User: Content { }
-extension User: Migration { }
-
-extension User: Timestampable {
-    static var createdAtKey: WritableKeyPath<User, Date?> {
-        return \User.createdAt
-    }
-    
-    static var updatedAtKey: WritableKeyPath<User, Date?> {
-        return \User.updatedAt
-    }
-}
-
-extension User: BasicAuthenticatable {
-    static var usernameKey: UsernameKey { return \User.email }
-    static var passwordKey: PasswordKey { return \User.password }
-}
-
 final class User: PostgreSQLModel {
     var id: Int?
     var email: String
@@ -52,6 +34,18 @@ final class User: PostgreSQLModel {
     fileprivate func createPublicUser() throws -> User.PublicUser {
         return try User.PublicUser(email: self.email, id: self.requireID(), displayName: self.displayName)
     }
+}
+
+extension User: Content { }
+extension User: Migration { }
+extension User: Timestampable {
+    static var createdAtKey: WritableKeyPath<User, Date?> { return \User.createdAt }
+    static var updatedAtKey: WritableKeyPath<User, Date?> { return \User.updatedAt }
+}
+
+extension User: BasicAuthenticatable {
+    static var usernameKey: UsernameKey { return \User.email }
+    static var passwordKey: PasswordKey { return \User.password }
 }
 
 extension Array where Element:User {

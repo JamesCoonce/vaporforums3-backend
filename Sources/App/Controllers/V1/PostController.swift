@@ -39,7 +39,10 @@ final class PostController {
     
     func showPost(_ request: Request) throws -> Future<Post> {
         let postId = try request.parameters.next(Int.self)
-        return try Post.find(postId, on: request)
+        return try Post.find(postId, on: request).map(to: Post.self) { post in
+            guard let post = post else { throw Abort.init(HTTPStatus.notFound) }
+            return post
+        }
     }
     
 }

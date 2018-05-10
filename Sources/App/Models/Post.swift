@@ -9,12 +9,6 @@ import Foundation
 import Vapor
 import FluentPostgreSQL
 
-extension Post: Content { }
-extension Post: Timestampable {
-    static var createdAtKey: WritableKeyPath<Post, Date?> { return \Post.createdAt }
-    static var updatedAtKey: WritableKeyPath<Post, Date?> { return \Post.updatedAt }
-}
-
 final class Post: PostgreSQLModel {
     
     var id:Int?
@@ -46,6 +40,12 @@ final class Post: PostgreSQLModel {
         guard let syntaxHilightedContent = synHiContent, let created = createdAt,  let updated = updatedAt else { throw Abort.init(HTTPResponseStatus.notFound) }
         return try Post.PostWithoutContent(id: self.requireID(), postTitle: self.postTitle, user_id: user_id, viewCount: viewCount, isTutorial: isTutorial, tutorialType: tutorialType, isPublished: isPublished, vaporVersion: vaporVersion, synHiContent: syntaxHilightedContent, createdAt: created, updatedAt: updated)
     }
+}
+
+extension Post: Content { }
+extension Post: Timestampable {
+    static var createdAtKey: WritableKeyPath<Post, Date?> { return \Post.createdAt }
+    static var updatedAtKey: WritableKeyPath<Post, Date?> { return \Post.updatedAt }
 }
 
 extension Array where Element:Post {
