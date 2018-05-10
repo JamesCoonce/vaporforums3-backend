@@ -10,7 +10,7 @@ import Vapor
 import FluentPostgreSQL
 import Crypto
 
-final class AccessToken: PostgreSQLModel {
+final class AccessToken: PostgreSQLModel, Codable {
     
     var id: Int?
     var token: String
@@ -29,7 +29,7 @@ final class AccessToken: PostgreSQLModel {
         self.userID = userID
     }
     
-    fileprivate class func generateAccessToken(for user: User)  throws -> AccessToken {
+    static func generateAccessToken(for user: User)  throws -> AccessToken {
         let token = Helpers.randomToken(withLength: 60)
         return try AccessToken(token: token, role: User.Role.user, isValid: true, lastUsedDate: Date(), userID: user.requireID())
     }

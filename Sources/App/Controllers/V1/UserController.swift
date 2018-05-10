@@ -16,8 +16,11 @@ final class UserController {
         return try request.content.decode(User.self).flatMap(to: User.AuthenticatedUser.self) { (user) -> Future<User.AuthenticatedUser> in
             let passwordHashed = try request.make(BCryptDigest.self).hash(user.password)
             let newUser = User(email: user.email, displayName: user.displayName, password: passwordHashed)
-            return newUser.save(on: request).map(to: User.AuthenticatedUser.self) { authedUser in
-                return try User.AuthenticatedUser(email: authedUser.email, id: authedUser.requireID(), displayName: authedUser.displayName, token: "token here")
+            return newUser.save(on: request).flatMap(to: User.AuthenticatedUser.self) { authedUser in
+                let accessToken = try AccessToken.generateAccessToken(for: authedUser)
+                return accessToken.save(on: request).map(to: User.AuthenticatedUser.self) { token in
+                    return try User.AuthenticatedUser(email: authedUser.email, id: authedUser.requireID(), displayName: authedUser.displayName, token: accessToken.token)
+                }
             }
         }
     }

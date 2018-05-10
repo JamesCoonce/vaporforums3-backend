@@ -1,4 +1,3 @@
-import FluentSQLite
 import Vapor
 import FluentPostgreSQL
 import Crypto
@@ -9,6 +8,11 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     /// Register providers first
     try services.register(AuthenticationProvider())
     try services.register(FluentPostgreSQLProvider())
+    
+    /// Register routes to the router
+    let router = EngineRouter.default()
+    try routes(router)
+    services.register(router, as: Router.self)
     
     /// Register middleware
     var middlewares = MiddlewareConfig() // Create _empty_ middleware config
@@ -23,26 +27,13 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     services.register(dbConfig)
     
     var migrations = MigrationConfig()
-    migrations.add(model: AccessToken.self, database: .psql)
     services.register(migrations)
     
     Post.defaultDatabase = DatabaseIdentifier<PostgreSQLDatabase>.psql
     User.defaultDatabase = DatabaseIdentifier<PostgreSQLDatabase>.psql
     Comment.defaultDatabase = DatabaseIdentifier<PostgreSQLDatabase>.psql
-    
-   
-    /// Register routes to the router
-    let router = EngineRouter.default()
-    try routes(router)
-    services.register(router, as: Router.self)
-
-}
-/*
-extension DatabaseIdentifier {
-    /// Test database.
-    static var vaporforums: DatabaseIdentifier<PostgreSQLDatabase> {
-        return "vaporforums"
-    }
+    AccessToken.defaultDatabase = DatabaseIdentifier<PostgreSQLDatabase>.psql
 }
 
-*/
+
+

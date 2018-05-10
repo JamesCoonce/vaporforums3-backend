@@ -22,6 +22,7 @@ class V1ApiRoutes: RouteCollection {
             let authedGroup = v1.grouped(middleWare)
             authedGroup.post("login", use: userController.loginUser)
             
+            // PostController
             let postController = PostController()
             v1.post("createTutorial", use: postController.createTutorial)
             v1.get("getLatestFiveTutorials", use: postController.getLatestFiveTutorials)
