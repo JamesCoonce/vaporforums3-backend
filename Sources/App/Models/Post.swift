@@ -41,5 +41,18 @@ final class Post: PostgreSQLModel {
         self.vaporVersion = vaporVersion
         self.synHiContent = synHiContent
     }
+    
+    fileprivate func createPostWithNoContent() throws -> Post.PostWithoutContent {
+        guard let syntaxHilightedContent = synHiContent, let created = createdAt,  let updated = updatedAt else { throw Abort.init(HTTPResponseStatus.notFound) }
+        return try Post.PostWithoutContent(id: self.requireID(), postTitle: self.postTitle, user_id: user_id, viewCount: viewCount, isTutorial: isTutorial, tutorialType: tutorialType, isPublished: isPublished, vaporVersion: vaporVersion, synHiContent: syntaxHilightedContent, createdAt: created, updatedAt: updated)
+    }
+}
+
+extension Array where Element:Post {
+    func withNoContent() throws -> [Post.PostWithoutContent]  {
+        var postsWithOutContentField = [Post.PostWithoutContent]()
+        for post in self { try postsWithOutContentField.append(post.createPostWithNoContent()) }
+        return postsWithOutContentField
+    }
 }
 

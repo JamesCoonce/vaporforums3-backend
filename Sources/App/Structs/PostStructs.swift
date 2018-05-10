@@ -9,8 +9,18 @@ import Foundation
 import Vapor
 
 extension Post {
-    // This kind of post is used because we don't pass back the content
-    // on the front page of the website yet
+    
+    struct AddPageViewRequest: Content {
+        var id: Int
+    }
+    
+    struct TutorialTypes {
+        static let IntroToVapor = "IntroToVapor"
+        static let Routing = "Routing"
+        static let Other = "Other"
+        static let JWT = "JSONWebToken"
+    }
+    
     struct PostWithoutContent {
         var id:Int?
         var postTitle: String

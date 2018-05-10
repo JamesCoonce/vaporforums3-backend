@@ -14,6 +14,7 @@ class V1ApiRoutes: RouteCollection {
     
     func boot(router: Router) throws {
         router.group(V1) { v1 in
+            // UsersController
             let userController = UserController()
             v1.post("createUser", use: userController.createUser)
             
@@ -23,6 +24,9 @@ class V1ApiRoutes: RouteCollection {
             
             let postController = PostController()
             v1.post("createTutorial", use: postController.createTutorial)
+            v1.get("getLatestFiveTutorials", use: postController.getLatestFiveTutorials)
+            v1.post("addPageView", use: postController.addPageView)
+            v1.get("showPost", Int.parameter, use: postController.showPost)
         }
     }
 }
