@@ -10,8 +10,8 @@ import Vapor
 import FluentPostgreSQL
 import Crypto
 
-final class AccessToken: PostgreSQLModel, Codable {
-    
+final class AccessToken: PostgreSQLModel  {
+
     var id: Int?
     var token: String
     var role: String

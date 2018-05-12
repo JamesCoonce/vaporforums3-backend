@@ -10,6 +10,7 @@ import FluentPostgreSQL
 import Vapor
 import Crypto
 import Authentication
+import Validation
 
 final class User: PostgreSQLModel {
     var id: Int?
@@ -53,5 +54,14 @@ extension Array where Element:User {
         var publicUsers = [User.PublicUser]()
         for user in self { try publicUsers.append(user.createPublicUser()) }
         return publicUsers
+    }
+}
+
+extension User: Validatable {
+    static func validations() throws -> Validations<User> {
+        var validations = Validations(User.self)
+        try validations.add(\.email, .email)
+        try validations.add(\.password, .count(8...))
+        return validations
     }
 }

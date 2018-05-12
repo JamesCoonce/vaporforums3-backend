@@ -42,7 +42,6 @@ final class Post: PostgreSQLModel {
     }
 }
 
-extension Post: Content { }
 extension Post: Timestampable {
     static var createdAtKey: WritableKeyPath<Post, Date?> { return \Post.createdAt }
     static var updatedAtKey: WritableKeyPath<Post, Date?> { return \Post.updatedAt }
@@ -55,4 +54,7 @@ extension Array where Element:Post {
         return postsWithOutContentField
     }
 }
+
+extension Post: Content { }
+extension Post: Migration { }
 

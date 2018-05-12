@@ -25,3 +25,7 @@ final class Comment: PostgreSQLModel {
         self.comment_id = comment_id
     }
 }
+
+extension Comment: Migration { }
+extension Comment: Content { }
+extension Comment: Parameter { }

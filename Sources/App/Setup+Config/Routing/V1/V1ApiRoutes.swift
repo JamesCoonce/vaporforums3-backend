@@ -16,7 +16,10 @@ class V1ApiRoutes: RouteCollection {
         router.group(V1) { v1 in
             // UsersController
             let userController = UserController()
-            v1.post("createUser", use: userController.createUser)
+            let toke = TokenAuthMiddleware()
+            v1.group(toke) { tokened in
+                 tokened.post("createUser", use: userController.createUser)
+            }
             
             let middleWare = User.basicAuthMiddleware(using: BCryptDigest())
             let authedGroup = v1.grouped(middleWare)
