@@ -42,7 +42,7 @@ extension User: Timestampable {
     static var updatedAtKey: WritableKeyPath<User, Date?> { return \User.updated_at }
 }
 
-extension User: BasicAuthenticatable {
+extension User: PasswordAuthenticatable {
     static var usernameKey: UsernameKey { return \User.email }
     static var passwordKey: PasswordKey { return \User.password }
 }

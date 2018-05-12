@@ -25,9 +25,16 @@ final class UserController {
         }
     }
   
-    func loginUser(_ request: Request) throws -> User.AuthenticatedUser {
-        let user = try request.requireAuthenticated(User.self)
-        return try User.AuthenticatedUser(email: user.email, id: user.requireID(), displayName: user.displayName, token: "token here")
+    func loginUser(_ request: Request) throws -> Future<User.AuthenticatedUser> {
+        return try request.content.decode(User.LoginRequest.self).flatMap(to: User.AuthenticatedUser.self) { user in // 1
+            let passwordVerifier = try request.make(BCryptDigest.self) // 2
+            return User.authenticate(username: user.email, password: user.password, using: passwordVerifier, on: request).unwrap(or: Abort.init(HTTPResponseStatus.unauthorized)).flatMap(to: User.AuthenticatedUser.self) { authedUser in
+                let newAccessToken = try AccessToken.generateAccessToken(for: authedUser)
+                return newAccessToken.save(on: request).map(to: User.AuthenticatedUser.self) { newToken in
+                    return try User.AuthenticatedUser(email: authedUser.email, id: authedUser.requireID(), displayName: authedUser.displayName, token: newToken.token)
+                }
+            }
+        }
     }
 }
 

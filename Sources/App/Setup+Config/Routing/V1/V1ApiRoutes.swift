@@ -13,21 +13,21 @@ class V1ApiRoutes: RouteCollection {
     let V1 = "v1"
     
     func boot(router: Router) throws {
+        // Declare Middlewares
+        let adminMiddleware = AdminMiddleware()
+        
         router.group(V1) { v1 in
+            // Create Middleware groups
+            let adminProtected = v1.grouped(adminMiddleware)
+            
             // UsersController
             let userController = UserController()
-            let toke = TokenAuthMiddleware()
-            v1.group(toke) { tokened in
-                 tokened.post("createUser", use: userController.createUser)
-            }
-            
-            let middleWare = User.basicAuthMiddleware(using: BCryptDigest())
-            let authedGroup = v1.grouped(middleWare)
-            authedGroup.post("login", use: userController.loginUser)
+            v1.post("createUser", use: userController.createUser)
+            v1.post("login", use: userController.loginUser)
             
             // PostController
             let postController = PostController()
-            v1.post("createTutorial", use: postController.createTutorial)
+            adminProtected.post("createTutorial", use: postController.createTutorial)
             v1.get("getLatestFiveTutorials", use: postController.getLatestFiveTutorials)
             v1.post("addPageView", use: postController.addPageView)
             v1.get("showPost", Int.parameter, use: postController.showPost)
