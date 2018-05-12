@@ -17,8 +17,8 @@ final class User: PostgreSQLModel {
     var email: String
     var displayName: String
     var password: String
-    var createdAt: Date?
-    var updatedAt: Date?
+    var created_at: Date?
+    var updated_at: Date?
 
     init(email: String, displayName: String, password: String) {
         self.email = email
@@ -37,11 +37,9 @@ final class User: PostgreSQLModel {
     }
 }
 
-extension User: Content { }
-extension User: Migration { }
 extension User: Timestampable {
-    static var createdAtKey: WritableKeyPath<User, Date?> { return \User.createdAt }
-    static var updatedAtKey: WritableKeyPath<User, Date?> { return \User.updatedAt }
+    static var createdAtKey: WritableKeyPath<User, Date?> { return \User.created_at }
+    static var updatedAtKey: WritableKeyPath<User, Date?> { return \User.updated_at }
 }
 
 extension User: BasicAuthenticatable {
@@ -65,3 +63,7 @@ extension User: Validatable {
         return validations
     }
 }
+
+// Empty Extensions
+extension User: Content { }
+extension User: Migration { }

@@ -30,7 +30,6 @@ extension Post {
         var tutorialType: String
         var isPublished: Bool
         var vaporVersion: Int
-        var synHiContent: String?
         var createdAt: Date?
         var updatedAt: Date?
     }

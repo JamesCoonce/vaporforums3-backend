@@ -17,8 +17,8 @@ final class AccessToken: PostgreSQLModel  {
     var role: String
     var isValid: Bool
     var lastUsedDate: Date
-    var createdAt: Date?
-    var updatedAt: Date?
+    var created_at: Date?
+    var updated_at: Date?
     var userID: User.ID
     
     init(token: String, role: String, isValid: Bool, lastUsedDate: Date, userID: User.ID) {
@@ -35,10 +35,12 @@ final class AccessToken: PostgreSQLModel  {
     }
 }
 
-// Extensions
+extension AccessToken: Timestampable {
+    static var createdAtKey: WritableKeyPath<AccessToken, Date?> { return \AccessToken.created_at }
+    static var updatedAtKey: WritableKeyPath<AccessToken, Date?> { return \AccessToken.updated_at }
+}
+
+// Empty Extensions
 extension AccessToken: Content { }
 extension AccessToken: Migration { }
-extension AccessToken: Timestampable {
-    static var createdAtKey: WritableKeyPath<AccessToken, Date?> { return \AccessToken.createdAt }
-    static var updatedAtKey: WritableKeyPath<AccessToken, Date?> { return \AccessToken.updatedAt }
-}
+

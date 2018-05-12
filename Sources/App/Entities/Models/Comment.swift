@@ -16,6 +16,8 @@ final class Comment: PostgreSQLModel {
     let isCorrect: Bool
     let post_id: Int
     var comment_id: Int?
+    var created_at: Date?
+    var updated_at: Date?
     
     init(content: String, user_id: Int, isCorrect: Bool, post_id: Int, comment_id: Int) {
         self.content = content
@@ -26,6 +28,12 @@ final class Comment: PostgreSQLModel {
     }
 }
 
+extension Comment: Timestampable {
+    static var createdAtKey: WritableKeyPath<Comment, Date?> { return \Comment.created_at }
+    static var updatedAtKey: WritableKeyPath<Comment, Date?> { return \Comment.updated_at }
+}
+
+// Empty Migrations
 extension Comment: Migration { }
 extension Comment: Content { }
 extension Comment: Parameter { }
