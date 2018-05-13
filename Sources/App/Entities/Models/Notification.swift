@@ -24,16 +24,18 @@ class Notification: PostgreSQLModel {
         self.read = read
     }
     
+    // the comment here is the comment that is posted and initiates a new notificaiton being send
+    // the postId is the id of the post that the comment was made on
     static func createNotification(from comment: Comment, withPostId postId: Post.ID, withRequest request: Request) throws {
-        guard let id = comment.id else { throw Abort(.notFound, reason: "no comment id")}
+         let id = try comment.requireID()
         // in the case of replying to a post:
         // userId will be:
-         try comment.post.get(on: request).map { post -> Post  in
-            let userIdOfParentPost = post.user_id
-            let commentAuthor = comment.user_id
-            if commentAuthor != userIdOfParentPost {
-                let notification = Notification(userId: userIdOfParentPost, type: Comment.NotificationType.ReplyToPost, commentId: id)
-                try notification.save()
+        let _ = try comment.post.get(on: request).map { post -> Post  in
+            let userIdOfParentPost = post.user_id // id of user who created parent post
+            let commentAuthor = comment.user_id // id of user who created the original comment which triggerd notification
+            if commentAuthor != userIdOfParentPost { // only send if not the same. Don't send a notification to yourself
+                let notification = Notification(userId: userIdOfParentPost, commentId: id, type: Comment.NotificationType.ReplyToPost, read: false)
+                let _ = notification.save(on: request)
             }
             let commentsCommentId = comment.comment_id
             if commentsCommentId != nil {
@@ -42,10 +44,15 @@ class Notification: PostgreSQLModel {
                 // we need to get the commentId of the comment it is in reply to, and then find that comment
                 // then find that author
                 // then get their userId, and that is the value of userId here
-                guard let userId2 = try Comment.find(commentsCommentId!)?.author.get()?.id! else { throw Abort(.badGateway, reason: "no userId for parent comment")}
-                if (userIdOfParentPost != userId2) && (commentAuthor != userId2) {
-                    let notification2 = Notification(userId: userId2, type: NotificationType.ReplyToComment, commentId: id)
-                    try notification2.save()
+                let _ =  try Comment.find(commentsCommentId!, on: request).map(to: Comment.self) { comment in
+                    guard let unwrappedComment = comment else { Abort.init(HTTPResponseStatus.notFound) }
+                    let _ = try unwrappedComment.author.get(on: request).map { authorOfComment in
+                        let authorOfCommentId = try authorOfComment.requireID()
+                        if (userIdOfParentPost != authorOfCommentId) && (commentAuthor != authorOfCommentId) {
+                            let notification2 = Notification(userId: authorOfCommentId, commentId: id, type: Comment.NotificationType.ReplyToComment, read: false)
+                            let _ = notification2.save(on: request)
+                        }
+                    }
                 }
             }
         }

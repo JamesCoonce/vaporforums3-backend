@@ -15,15 +15,15 @@ final class Comment: PostgreSQLModel {
     let user_id: Int
     let isCorrect: Bool
     let post_id: Int
-    var comment_id: Int?
+    var comment_id: Int? // the id of the comment that this comment is replying to.
     var created_at: Date?
     var updated_at: Date?
     
     init(content: String, user_id: Int, isCorrect: Bool, post_id: Int, comment_id: Int?) {
         self.content = content
-        self.user_id = user_id
+        self.user_id = user_id // the user who authored this comment
         self.isCorrect = isCorrect
-        self.post_id = post_id
+        self.post_id = post_id // which post_id this comment belongs to
         self.comment_id = comment_id
     }
 }
@@ -31,6 +31,10 @@ final class Comment: PostgreSQLModel {
 extension Comment {
     var post: Parent<Comment, Post> {
         return parent(\.post_id)
+    }
+    
+    var author: Parent<Comment, User> {
+        return parent(\.user_id)
     }
 }
 
