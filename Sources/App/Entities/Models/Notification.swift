@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 import FluentPostgreSQL
 
-class Notification: PostgreSQLModel {
+final class Notification: PostgreSQLModel {
     
     var id: Int?
     var userId: User.ID // the userId of the person who will be getting the notificaton.
@@ -28,33 +28,38 @@ class Notification: PostgreSQLModel {
     // the postId is the id of the post that the comment was made on
     static func createNotification(from comment: Comment, withPostId postId: Post.ID, withRequest request: Request) throws {
          let id = try comment.requireID()
-        // in the case of replying to a post:
-        // userId will be:
         let _ = try comment.post.get(on: request).map { post -> Post  in
             let userIdOfParentPost = post.user_id // id of user who created parent post
             let commentAuthor = comment.user_id // id of user who created the original comment which triggerd notification
             if commentAuthor != userIdOfParentPost { // only send if not the same. Don't send a notification to yourself
-                let notification = Notification(userId: userIdOfParentPost, commentId: id, type: Comment.NotificationType.ReplyToPost, read: false)
-                let _ = notification.save(on: request)
+                sendNotificationToOriginalPostUser(with: userIdOfParentPost, andCommentId: id, using: request)
             }
             let commentsCommentId = comment.comment_id
             if commentsCommentId != nil {
-                // if this is not nil, it means the comment is in reply to another comment
-                // so, we need to send a notification
-                // we need to get the commentId of the comment it is in reply to, and then find that comment
-                // then find that author
-                // then get their userId, and that is the value of userId here
-                let _ =  try Comment.find(commentsCommentId!, on: request).map(to: Comment.self) { comment in
-                    guard let unwrappedComment = comment else { Abort.init(HTTPResponseStatus.notFound) }
-                    let _ = try unwrappedComment.author.get(on: request).map { authorOfComment in
-                        let authorOfCommentId = try authorOfComment.requireID()
-                        if (userIdOfParentPost != authorOfCommentId) && (commentAuthor != authorOfCommentId) {
-                            let notification2 = Notification(userId: authorOfCommentId, commentId: id, type: Comment.NotificationType.ReplyToComment, read: false)
-                            let _ = notification2.save(on: request)
-                        }
-                    }
-                }
+                try sendNotificationToCommenter(replyingTo: commentsCommentId!, andUserIfOfParentPost: userIdOfParentPost, using: request, withCommentAuthor: commentAuthor, originalCommentId: id)
             }
+            return post
         }
     }
+    
+    fileprivate static  func sendNotificationToOriginalPostUser(with userId: User.ID, andCommentId commentId: Comment.ID, using request: Request) {
+        let notificationType = Comment.NotificationType.ReplyToPost
+        let notification = Notification(userId: userId, commentId: commentId, type: notificationType, read: false)
+        let _ = notification.save(on: request)
+    }
+    
+    fileprivate static func sendNotificationToCommenter(replyingTo commentId: Int, andUserIfOfParentPost userIdOfParentPost: User.ID, using request: Request, withCommentAuthor commentAuthor: Int, originalCommentId id: Comment.ID) throws {
+        let _ =  try Comment.find(commentId, on: request).map(to: Comment.self) { comment in
+            guard let unwrappedComment = comment else { throw Abort.init(HTTPResponseStatus.notFound) }
+            let _ = try unwrappedComment.author.get(on: request).map { authorOfComment in
+                let authorOfCommentId = try authorOfComment.requireID()
+                if (userIdOfParentPost != authorOfCommentId) && (commentAuthor != authorOfCommentId) {
+                    let notification2 = Notification(userId: authorOfCommentId, commentId: id, type: Comment.NotificationType.ReplyToComment, read: false)
+                    let _ = notification2.save(on: request)
+                }
+            }
+            return unwrappedComment
+        }
+    }
+    
 }
