@@ -14,4 +14,10 @@ extension Comment {
         var postId: Int
         var commentId: Int?
     }
+    
+    struct NotificationType {
+        static let ReplyToComment = "replyToComment"
+        static let ReplyToPost = "replyToPost"
+    }
+    
 }

@@ -28,6 +28,12 @@ final class Comment: PostgreSQLModel {
     }
 }
 
+extension Comment {
+    var post: Parent<Comment, Post> {
+        return parent(\.post_id)
+    }
+}
+
 extension Comment: Timestampable {
     static var createdAtKey: WritableKeyPath<Comment, Date?> { return \Comment.created_at }
     static var updatedAtKey: WritableKeyPath<Comment, Date?> { return \Comment.updated_at }
