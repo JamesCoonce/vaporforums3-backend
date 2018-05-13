@@ -8,7 +8,6 @@
 import Foundation
 import FluentPostgreSQL
 import Vapor
-import Crypto
 import Authentication
 import Validation
 
@@ -41,6 +40,8 @@ extension User: Timestampable {
     static var createdAtKey: WritableKeyPath<User, Date?> { return \User.created_at }
     static var updatedAtKey: WritableKeyPath<User, Date?> { return \User.updated_at }
 }
+
+extension User: TokenAuthenticatable { typealias TokenType = AccessToken }
 
 extension User: PasswordAuthenticatable {
     static var usernameKey: UsernameKey { return \User.email }

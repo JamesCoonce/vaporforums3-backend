@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 import FluentPostgreSQL
-import Crypto
+import Authentication
 
 final class AccessToken: PostgreSQLModel  {
 
@@ -32,6 +32,22 @@ final class AccessToken: PostgreSQLModel  {
     static func generateAccessToken(for user: User)  throws -> AccessToken {
         let token = Helpers.randomToken(withLength: 60)
         return try AccessToken(token: token, role: User.Role.user, isValid: true, lastUsedDate: Date(), userID: user.requireID())
+    }
+}
+
+extension AccessToken: BearerAuthenticatable {
+    static var tokenKey: WritableKeyPath<AccessToken, String> { return \AccessToken.token }
+}
+
+extension AccessToken: Authentication.Token {
+    static var userIDKey: WritableKeyPath<AccessToken, User.ID> { return \AccessToken.userID } // 1
+    typealias UserType = User // 2
+    typealias UserIDType = User.ID //3
+}
+
+extension AccessToken {
+    var user: Parent<AccessToken, User> {
+        return parent(\.userID)
     }
 }
 

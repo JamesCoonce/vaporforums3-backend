@@ -15,10 +15,12 @@ class V1ApiRoutes: RouteCollection {
     func boot(router: Router) throws {
         // Declare Middlewares
         let adminMiddleware = AdminMiddleware()
+        let tokenAuthenticationMiddleware = User.tokenAuthMiddleware() // 1
         
         router.group(V1) { v1 in
             // Create Middleware groups
             let adminProtected = v1.grouped(adminMiddleware)
+            let userAuthProtected = v1.grouped(tokenAuthenticationMiddleware)
             
             // UsersController
             let userController = UserController()
@@ -31,6 +33,12 @@ class V1ApiRoutes: RouteCollection {
             v1.get("getLatestFiveTutorials", use: postController.getLatestFiveTutorials)
             v1.post("addPageView", use: postController.addPageView)
             v1.get("showPost", Int.parameter, use: postController.showPost)
+            
+            let commentController = CommentController()
+            let commentsForPostNesting = "post/comments"
+            userAuthProtected.group(commentsForPostNesting) { authProtected in
+                authProtected.post("create", use: commentController.createComment)
+            }
         }
     }
 }

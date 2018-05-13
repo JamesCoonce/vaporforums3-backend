@@ -19,7 +19,7 @@ final class Comment: PostgreSQLModel {
     var created_at: Date?
     var updated_at: Date?
     
-    init(content: String, user_id: Int, isCorrect: Bool, post_id: Int, comment_id: Int) {
+    init(content: String, user_id: Int, isCorrect: Bool, post_id: Int, comment_id: Int?) {
         self.content = content
         self.user_id = user_id
         self.isCorrect = isCorrect

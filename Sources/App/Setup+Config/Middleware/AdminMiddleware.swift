@@ -10,15 +10,16 @@ import Vapor
 import FluentPostgreSQL
 // Need to implement this soon
 class AdminMiddleware: Middleware {
+    let forbiddenError =  Abort.init(HTTPResponseStatus.forbidden)
+    
     func respond(to request: Request, chainingTo next: Responder) throws -> EventLoopFuture<Response> {
-        if let authToken = request.http.headers.firstValue(name: HTTPHeaderName("Authorization")) {
-            let futureAccessToken = try AccessToken.query(on: request).filter(\AccessToken.token == authToken).first()
+        if let authTokenString = request.http.headers.firstValue(name: HTTPHeaderName("Authorization")) {
+            let futureAccessToken = try AccessToken.query(on: request).filter(\AccessToken.token == authTokenString).first()
             return futureAccessToken.flatMap(to: Response.self) { token in
-                guard let unwrappedToken = token else { throw Abort.init(HTTPResponseStatus.forbidden) }
+                guard let unwrappedToken = token else { throw self.forbiddenError }
                 if unwrappedToken.role == User.Role.admin { return try next.respond(to: request) }
-                else { throw Abort.init(HTTPResponseStatus.forbidden) }
+                else { throw  self.forbiddenError}
             }
-        }
-        throw Abort.init(HTTPResponseStatus.forbidden)
+        } else { throw forbiddenError }
     }
 }
