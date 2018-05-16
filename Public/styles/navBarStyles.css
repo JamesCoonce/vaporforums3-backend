@@ -1,0 +1,28 @@
+
+.nav-container {
+    width: 212px;
+    height: 700px;
+    background-color: #fafafa;
+    float: left;
+    position: fixed;
+}
+
+.vaporcasts-text {
+    font-family: Avenir Next;
+    font-size: 24px;
+    font-weight: lighter;
+    margin-top: 40px;
+    margin-left: 15px;
+}
+
+.title-header {
+    font-family: Avenir Next;
+    font-size: 21px;
+    font-weight: medium;
+}
+
+.nav-options {
+    font-family: Avenir Next;
+    font-size: 17px;
+    font-weight: normal;
+}

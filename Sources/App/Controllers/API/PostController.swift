@@ -8,8 +8,18 @@
 import Foundation
 import Vapor
 import FluentPostgreSQL
+import Leaf
 
 final class PostController {
+    
+    func getFrontPage(_ request: Request) throws -> Future<View> {
+        let queryField = QueryField(name: "created_at")
+        let querySort = QuerySort(field: queryField, direction: QuerySortDirection.descending)
+        return Post.query(on: request).all().flatMap(to: View.self) { posts in
+            let postsWithoutContent = try posts.withNoContent()
+            return try request.view().render("homePage", postsWithoutContent)
+        }
+    }
     
     func createTutorial(_ request: Request) throws -> Future<HTTPStatus> {
         return try request.content.decode(Post.self).flatMap { newPost in

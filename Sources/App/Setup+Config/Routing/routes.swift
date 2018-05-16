@@ -7,4 +7,6 @@ public func routes(_ router: Router) throws {
     let v1Api = V1ApiRoutes()
     try router.register(collection: v1Api)
     
+    let postController = PostController()
+    router.get("homePage", use: postController.getFrontPage)
 }

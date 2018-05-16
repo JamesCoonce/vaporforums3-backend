@@ -13,6 +13,9 @@ class V1ApiRoutes: RouteCollection {
     let V1 = "v1"
     
     func boot(router: Router) throws {
+        let postController = PostController()
+        router.get("posts/latestFive", use: postController.getLatestFiveTutorials)
+        
         // Declare Middlewares
         let adminMiddleware = AdminMiddleware()
         let tokenAuthenticationMiddleware = User.tokenAuthMiddleware() // 1
@@ -28,7 +31,7 @@ class V1ApiRoutes: RouteCollection {
             v1.post("login", use: userController.loginUser)
             
             // PostController
-            let postController = PostController()
+           // let postController = PostController()
             adminProtected.post("createTutorial", use: postController.createTutorial)
             v1.get("getLatestFiveTutorials", use: postController.getLatestFiveTutorials)
             v1.post("addPageView", use: postController.addPageView)
