@@ -32,5 +32,7 @@ extension Post {
         var vaporVersion: Int
         var createdAt: Date?
         var updatedAt: Date?
+        
+        var humanDate: String { return "May 12, 2017" }
     }
 }

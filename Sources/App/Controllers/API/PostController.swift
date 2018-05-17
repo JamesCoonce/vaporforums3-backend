@@ -10,14 +10,18 @@ import Vapor
 import FluentPostgreSQL
 import Leaf
 
+struct PostContext: Content {
+    let posts: [Post.PostWithoutContent]
+}
+
 final class PostController {
-    
     func getFrontPage(_ request: Request) throws -> Future<View> {
-        let queryField = QueryField(name: "created_at")
-        let querySort = QuerySort(field: queryField, direction: QuerySortDirection.descending)
+       // let queryField = QueryField(name: "created_at")
+       // let querySort = QuerySort(field: queryField, direction: QuerySortDirection.descending)
         return Post.query(on: request).all().flatMap(to: View.self) { posts in
             let postsWithoutContent = try posts.withNoContent()
-            return try request.view().render("homePage", postsWithoutContent)
+            let context = PostContext(posts: postsWithoutContent)
+            return try request.view().render("homePage", context)
         }
     }
     

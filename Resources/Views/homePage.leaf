@@ -6,41 +6,42 @@
                 <div class="col-lg-9 col-lg-offset-1">
                     <div class="latest-tutorials-text">Latest Tutorials</div><br/><br/>
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="tutorial-box">
-                                <div class="tutorial-content">
-                                    <div class="row">
-                                        <div class="col-lg-1">
-                                            <img class="tutorial-box-image" src="https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?auto=compress&cs=tinysrgb&h=350" />
+                        #for(post in posts) {
+                        <a href="">
+                            <div class="col-lg-6" style="margin-top: 30px;">
+                                <div class="tutorial-box">
+                                    <div class="tutorial-content">
+                                        <div class="row">
+                                            <div class="col-lg-1">
+                                                <img class="tutorial-box-image" src="https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?auto=compress&cs=tinysrgb&h=350" />
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <div class="tutorial-title-text">#(post.postTitle)</div>
+                                            </div>
+                                            <div class="col-lg-2"><i class="fa fa-heart fa-lg" style="margin-top: 11px;
+                                                color: #F82665"></i></div>
                                         </div>
-                                        <div class="col-lg-9">
-                                            <div class="tutorial-title-text">Token Authentication in Vapor 3</div>
-                                        </div>
-                                        <div class="col-lg-2"><i class="fa fa-heart fa-lg" style="margin-top: 11px;
-                                            color: #F82665"></i></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="tutorial-description-text">
-                                                This tutorial will cover username and password authentication. This is very similar to Basic HTTP Authorization, except in this case, we manually authenticate the user ourselves--the middleware does not handle it for us.
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="tutorial-description-text">
+                                                    This tutorial will cover username and password authentication. This is very similar to Basic HTTP Authorization, except in this case, we manually authenticate the user ourselves--the middleware does not handle it for us.
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row" style="margin-top: 20px;">
-                                        <div class="col-lg-4" style="margin-top: 5px;">
+                                        <div class="row" style="margin-top: 20px;">
+                                            <div class="col-lg-4" style="margin-top: 5px;">
                                                 <i class="fa fa-clock-o" style="color: #F82665"></i>
-                                                MAY 12, 2018
+                                                #(post.humanDate)
                                             </div>
                                             <div class="col-lg-4">
-                                                <div class="tutorial-category-box">Authentication </div>
+                                                <div class="tutorial-category-box">#(post.tutorialType) </div>
                                             </div>
-                                            <div class="col-lg-4">
-                                                <div class="tutorial-category-box">Intro to Vapor </div>
-                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
+                        }
                     </div>
                 </div>
             </div>

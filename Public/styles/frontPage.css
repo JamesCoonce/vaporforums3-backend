@@ -7,13 +7,18 @@
 
 .tutorial-box {
     background-color: white;
-    height: 265px;
-    width: 431px;
+    border-radius: 3%;
+    transition: box-shadow .3s;
+}
+
+.tutorial-box:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
 }
 
 .tutorial-content {
     background-color: clear;
     padding: 10px; 10px; 10px; 10px;
+    color: black;
 }
 
 .tutorial-box-image {
@@ -31,17 +36,20 @@
     font-weight: bold;
     margin-top: -3px;
     margin-left: 12px;
+    color: black;
 }
 
 .tutorial-description-text {
     font-weight: medium;
     font-size: 17px;
     margin-top: 20px;
+    color: black;
 }
 
 .date-text {
     font-size: 15px;
     margin-left: 10px;
+    color: black;
 }
 
 .tutorial-category-box {
