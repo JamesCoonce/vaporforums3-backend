@@ -2,6 +2,62 @@
 .latest-tutorials-text {
     font-family: Avenir Next;
     font-weight: bold;
-    font-size: 40px;
-    margin-top: 100px;
+    font-size: 48px;
 }
+
+.tutorial-box {
+    background-color: white;
+    height: 265px;
+    width: 431px;
+}
+
+.tutorial-content {
+    background-color: clear;
+    padding: 10px; 10px; 10px; 10px;
+}
+
+.tutorial-box-image {
+    background-color: clear;
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.tutorial-title-text {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: -3px;
+    margin-left: 12px;
+}
+
+.tutorial-description-text {
+    font-weight: medium;
+    font-size: 17px;
+    margin-top: 20px;
+}
+
+.date-text {
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.tutorial-category-box {
+    border-color: #d3d3d3;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    padding: 4px;
+    width: 100%;
+    text-align: center;
+    margin-top: 0px;
+}
+
+
+
+
+
+
+
