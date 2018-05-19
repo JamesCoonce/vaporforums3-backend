@@ -9,4 +9,13 @@ public func routes(_ router: Router) throws {
     
     let postController = PostController()
     router.get("homePage", use: postController.getFrontPage)
+    
+    router.get("showArticle", Int.parameter) { request -> Future<View> in
+        let postId = try request.parameters.next(Int.self)
+        return try Post.find(postId, on: request).flatMap(to: View.self) { post in
+            guard let unwrappedPost = post else { throw Abort.init(HTTPResponseStatus.notFound) }
+            let articleContext = ArticleListContext(article: unwrappedPost)
+            return try request.view().render("showArticle", articleContext)
+        }
+    }
 }

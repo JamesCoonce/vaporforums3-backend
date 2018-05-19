@@ -1,0 +1,22 @@
+#set("content") {
+<div style="margin-top: 0px; background-color: #fafafa; font-family: Avenir Next;">ok
+    <div style="height: 900px; margin-left: 212px; margin-top: 100px">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-1">
+                    <div class="article-title">#(article.postTitle)</div>
+                    <div class="views-comment-text">456 Views • 4 comments</div>
+                    <div class="author-date-text">May 13, 2018 • anapaix</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-1">
+                    #get(article.synHiContent)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+#embed("base")

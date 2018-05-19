@@ -20,19 +20,16 @@ extension Post {
         static let Other = "Other"
         static let JWT = "JSONWebToken"
     }
-    
-    struct PostWithoutContent: Content  {
-        var id:Int?
-        var postTitle: String
-        let user_id: Int
-        var viewCount: Int
-        var isTutorial: Bool
-        var tutorialType: String
-        var isPublished: Bool
-        var vaporVersion: Int
-        var createdAt: Date?
-        var updatedAt: Date?
-        
-        var humanDate: String { return "May 12, 2017" }
-    }
+}
+
+struct PostWithoutContent: Content  {
+    var id:Int?
+    var postTitle: String
+    let user_id: Int
+    var viewCount: Int
+    var isTutorial: Bool
+    var tutorialType: String
+    var isPublished: Bool
+    var vaporVersion: Int
+    var humanDate: String
 }

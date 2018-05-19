@@ -9,6 +9,7 @@ import Foundation
 import Vapor
 
 class Helpers {
+    static let dateFormat = "MMM d, yyyy"
     // credit for this randomToken method: https://stackoverflow.com/questions/26845307/generate-random-alphanumeric-string-in-swift
     class func randomToken(withLength length: Int) -> String {
         let allowedChars = "$!@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -22,4 +23,11 @@ class Helpers {
         }
         return randomString
     }
+    
+    class func humanDate(from originalDate: Date) -> String  {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = Helpers.dateFormat
+        return dateFormatter.string(from: originalDate)
+    }
+    
 }

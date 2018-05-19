@@ -36,9 +36,11 @@ final class Post: PostgreSQLModel {
         self.synHiContent = synHiContent
     }
     
-    fileprivate func createPostWithNoContent() throws -> Post.PostWithoutContent {
-        guard let created = created_at,  let updated = updated_at else { throw Abort.init(HTTPResponseStatus.notFound) }
-        return try Post.PostWithoutContent(id: self.requireID(), postTitle: self.postTitle, user_id: user_id, viewCount: viewCount, isTutorial: isTutorial, tutorialType: tutorialType, isPublished: isPublished, vaporVersion: vaporVersion, createdAt: created, updatedAt: updated)
+    fileprivate func createPostWithNoContent() throws -> PostWithoutContent {
+        guard let created = created_at else { throw Abort.init(HTTPResponseStatus.notFound) }
+        let postWithoutContent = try PostWithoutContent(id: self.requireID(), postTitle: self.postTitle, user_id: self.user_id, viewCount: self.viewCount, isTutorial: self.isTutorial, tutorialType: self.tutorialType, isPublished: self.isPublished, vaporVersion: self.vaporVersion, humanDate: Helpers.humanDate(from: created))
+        
+        return postWithoutContent
     }
 }
 
@@ -48,8 +50,8 @@ extension Post: Timestampable {
 }
 
 extension Array where Element:Post {
-    func withNoContent() throws -> [Post.PostWithoutContent]  {
-        var postsWithOutContentField = [Post.PostWithoutContent]()
+    func withNoContent() throws -> [PostWithoutContent]  {
+        var postsWithOutContentField = [PostWithoutContent]()
         for post in self { try postsWithOutContentField.append(post.createPostWithNoContent()) }
         return postsWithOutContentField
     }

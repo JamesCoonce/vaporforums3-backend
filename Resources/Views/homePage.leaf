@@ -7,7 +7,7 @@
                     <div class="latest-tutorials-text">Latest Tutorials</div><br/><br/>
                     <div class="row">
                         #for(post in posts) {
-                        <a href="">
+                        <a href="/showArticle/#(post.id)">
                             <div class="col-lg-6" style="margin-top: 30px;">
                                 <div class="tutorial-box">
                                     <div class="tutorial-content">
@@ -31,7 +31,7 @@
                                         <div class="row" style="margin-top: 20px;">
                                             <div class="col-lg-4" style="margin-top: 5px;">
                                                 <i class="fa fa-clock-o" style="color: #F82665"></i>
-                                                #(post.humanDate)
+                                                &nbsp;#(post.humanDate)
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="tutorial-category-box">#(post.tutorialType) </div>

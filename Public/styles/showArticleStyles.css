@@ -1,0 +1,16 @@
+
+.article-title {
+    font-weight: bold;
+    font-size: 35px;
+}
+
+.views-comment-text {
+    font-size: 20px;
+    font-weight: medium;
+    margin-top: 15px;
+}
+
+.author-date-text {
+    font-size: 13px;
+    margin-top: 10px;
+}

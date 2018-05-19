@@ -10,8 +10,12 @@ import Vapor
 import FluentPostgreSQL
 import Leaf
 
-struct PostContext: Content {
-    let posts: [Post.PostWithoutContent]
+struct PostListContext: Content {
+    let posts: [PostWithoutContent]
+}
+
+struct ArticleListContext: Content {
+    let article: Post
 }
 
 final class PostController {
@@ -20,7 +24,7 @@ final class PostController {
        // let querySort = QuerySort(field: queryField, direction: QuerySortDirection.descending)
         return Post.query(on: request).all().flatMap(to: View.self) { posts in
             let postsWithoutContent = try posts.withNoContent()
-            let context = PostContext(posts: postsWithoutContent)
+            let context = PostListContext(posts: postsWithoutContent)
             return try request.view().render("homePage", context)
         }
     }
@@ -31,10 +35,10 @@ final class PostController {
         }
     }
     
-    func getLatestFiveTutorials(_ request: Request) throws -> Future<[Post.PostWithoutContent]> {
+    func getLatestFiveTutorials(_ request: Request) throws -> Future<[PostWithoutContent]> {
         let queryField = QueryField(name: "created_at")
         let querySort = QuerySort(field: queryField, direction: QuerySortDirection.descending)
-        return try Post.query(on: request).filter(\Post.isPublished == true).filter(\Post.isTutorial == true).sort(querySort).range(lower: 0, upper: 5).all().map(to: [Post.PostWithoutContent].self, { (posts) in
+        return try Post.query(on: request).filter(\Post.isPublished == true).filter(\Post.isTutorial == true).sort(querySort).range(lower: 0, upper: 5).all().map(to: [PostWithoutContent].self, { (posts) in
             return try posts.withNoContent()
         })
     }
