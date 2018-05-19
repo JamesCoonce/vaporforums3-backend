@@ -15,14 +15,20 @@ struct PostListContext: Content {
 }
 
 struct ArticleListContext: Content {
-    let article: Post
+    let article: FormattedTutorialPost
+}
+
+extension QueryBuilder {
+    func descending() -> QueryBuilder {
+        let queryField = QueryField(name: "created_at")
+         let querySort = QuerySort(field: queryField, direction: QuerySortDirection.descending)
+        return self.sort(querySort)
+    }
 }
 
 final class PostController {
     func getFrontPage(_ request: Request) throws -> Future<View> {
-       // let queryField = QueryField(name: "created_at")
-       // let querySort = QuerySort(field: queryField, direction: QuerySortDirection.descending)
-        return Post.query(on: request).all().flatMap(to: View.self) { posts in
+        return Post.query(on: request).descending().all().flatMap(to: View.self) { posts in
             let postsWithoutContent = try posts.withNoContent()
             let context = PostListContext(posts: postsWithoutContent)
             return try request.view().render("homePage", context)

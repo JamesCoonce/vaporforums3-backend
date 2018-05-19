@@ -34,11 +34,10 @@
     border-style: solid:
     border-width: 1px;
     box-shadow: 0 0 01px rgba(33,33,33,.2);
-    height: 250px;
 }
 
-.first-letter-name-icon {
-    background-color: white;
+.first-letter-name-box {
+    background-color: #F82665;
     border-color: #F82665;
     border-style: solid:
     border-width: 1px;
@@ -47,4 +46,16 @@
     border-radius: 19px;
     margin-left: 10px;
     margin-top: 10px;
+}
+
+.first-letter-text {
+    margin-left: 13px;
+    padding-top: 6px;
+    font-weight: bold;
+    font-size: 20;
+    color: white;
+}
+
+.comment-author-name-text {
+    
 }

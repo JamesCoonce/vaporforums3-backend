@@ -31,3 +31,7 @@
 .sidebar-link {
     color: black;
 }
+
+a:hover {
+    color:  #F82665;
+}

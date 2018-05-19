@@ -9,6 +9,7 @@
  <link rel="stylesheet" href="/styles/navBarStyles.css">
  <link rel="stylesheet" href="/styles/showArticleStyles.css">
 <link rel="stylesheet" href="/styles/prism.css">
+<link rel="stylesheet" href="/styles/loginRegister.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     
 <title>Vaporcasts</title>
@@ -16,12 +17,12 @@
 <body>
 <div class="nav-container">
     <div class="container">
-        <div class="vaporcasts-text">Vaporcasts.io</div>
+        <div class="vaporcasts-text"><a class="sidebar-link" href="/">Vaporcasts.io</a></div>
         <br/><br/>
         <div style="font-family: Avenir Next">
             <p class="title-header">User Stuff</p>
-            <p class="nav-options">Register</p>
-            <p class="nav-options">Login</p>
+            <p class="nav-options"><a class="sidebar-link" href="/register">Register</a></p>
+            <p class="nav-options"><a class="sidebar-link" href="/login">Login</a></p>
             <br/><br/>
             <p class="title-header">Vapor Stuff</p>
             <p class="nav-options"><a class="sidebar-link" href="/allTutorials">View all Tutorials</a> </p>

@@ -1,0 +1,26 @@
+
+.login-input {
+    border-bottom: 1px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-style: solid;
+    border-color: #F82665;
+    background-color: #fafafa;
+    font-size: 18px;
+    width: 250px;
+    height: 30px;
+    outline: none;
+}
+
+.login-button {
+    border-color: #F82665;
+    border-radius: 6px;
+    background-color: #fafafa;
+    font-weight: bold;
+    font-size: 20px;
+    padding-top: 5px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+}

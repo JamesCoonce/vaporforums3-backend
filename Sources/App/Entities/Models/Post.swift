@@ -39,8 +39,14 @@ final class Post: PostgreSQLModel {
     fileprivate func createPostWithNoContent() throws -> PostWithoutContent {
         guard let created = created_at else { throw Abort.init(HTTPResponseStatus.notFound) }
         let postWithoutContent = try PostWithoutContent(id: self.requireID(), postTitle: self.postTitle, user_id: self.user_id, viewCount: self.viewCount, isTutorial: self.isTutorial, tutorialType: self.tutorialType, isPublished: self.isPublished, vaporVersion: self.vaporVersion, humanDate: Helpers.humanDate(from: created))
-        
         return postWithoutContent
+    }
+    
+    func convertToFormattedTutorialPost() throws -> FormattedTutorialPost {
+        guard let created = created_at else { throw Abort.init(HTTPResponseStatus.notFound) }
+        guard let content = synHiContent else { throw Abort.init(HTTPResponseStatus.notFound) }
+        let formattedPost = try FormattedTutorialPost(id: self.requireID(), postTitle: self.postTitle, user_id: self.user_id, viewCount: self.viewCount, isTutorial: self.isTutorial, tutorialType: self.tutorialType, isPublished: self.isPublished, vaporVersion: self.vaporVersion, humanDate: Helpers.humanDate(from: created), synHiContent: content)
+        return formattedPost
     }
 }
 
