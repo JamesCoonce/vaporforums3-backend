@@ -3,20 +3,35 @@
     <div style="height: 900px; margin-left: 212px; margin-top: 100px">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-lg-offset-1">
+                <div class="col-lg-7 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
                     <div class="article-title">#(article.postTitle)</div>
-                    <div class="views-comment-text">456 Views • 4 comments</div>
-                    <div class="author-date-text">May 13, 2018 • anapaix</div>
+                    <div class="views-comment-text">#(article.viewCount) Views • 4 comments</div>
+                    <div class="author-date-text">#(article.humanDate) • anapaix</div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-lg-offset-1">
-                    #get(article.synHiContent)
+                <div class="col-lg-7 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
+                    <div class="article-style">#get(article.synHiContent)</div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-lg-7 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
+                    <div class="comments-header-text ">Comments</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-7 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-12">
+                    <div class="comment-box">
+                        <div class="first-letter-name-icon" style="margin-top: 10px;">
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 }
-
+<script src="/styles/prism.js"></script>
 #embed("base")

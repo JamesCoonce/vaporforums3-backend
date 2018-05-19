@@ -24,13 +24,13 @@
             <p class="nav-options">Login</p>
             <br/><br/>
             <p class="title-header">Vapor Stuff</p>
-            <p class="nav-options">View all Tutorials </p>
-            <p class="nav-options">Getting Started</p>
-            <p class="nav-options">Authentication</p>
-            <p class="nav-options">Routing</p>
-            <p class="nav-options">Intro to Vapor</p>
-            <p class="nav-options">Fluent</p>
-            <p class="nav-options">Leaf</p>
+            <p class="nav-options"><a class="sidebar-link" href="/allTutorials">View all Tutorials</a> </p>
+            <p class="nav-options"><a class="sidebar-link" href="/gettingStarted">Getting Started</a></p>
+            <p class="nav-options"><a class="sidebar-link" href="/tutorialCategories/authentication">Authentication</a></p>
+            <p class="nav-options"><a class="sidebar-link" href="/tutorialCategories/routing">Routing</a></p>
+            <p class="nav-options"><a class="sidebar-link" href="/tutorialCategories/introtovapor">Intro to Vapor</a></p>
+            <p class="nav-options"><a class="sidebar-link" href="/tutorialCategories/fluent">Fluent</a></p>
+            <p class="nav-options"><a class="sidebar-link" href="/tutorialCategories/leaf">Leaf</a></p>
         </div>
     </div>
 </div>

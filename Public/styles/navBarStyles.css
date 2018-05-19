@@ -19,10 +19,15 @@
     font-family: Avenir Next;
     font-size: 21px;
     font-weight: medium;
+    color: #F82665;
 }
 
 .nav-options {
     font-family: Avenir Next;
     font-size: 17px;
     font-weight: normal;
+}
+
+.sidebar-link {
+    color: black;
 }
